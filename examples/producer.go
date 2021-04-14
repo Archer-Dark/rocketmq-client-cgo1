@@ -19,7 +19,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/apache/rocketmq-client-go/core"
+	"github.com/Archer-Dark/rocketmq-client-cgo1/core"
 )
 
 // Change to main if you want to run it directly

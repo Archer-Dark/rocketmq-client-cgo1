@@ -35,7 +35,6 @@ type Message struct {
 	Tags           string
 	Keys           string
 	Body           string
-	BBody           []byte
 	DelayTimeLevel int
 	Property       map[string]string
 	cmsg           *C.struct_CMessage
@@ -94,8 +93,7 @@ func cMsgToGo(cMsg *C.struct_CMessage) *Message {
 	gomsg.Topic = C.GoString(C.GetOriginMessageTopic(cMsg))
 	gomsg.Tags = C.GoString(C.GetOriginMessageTags(cMsg))
 	gomsg.Keys = C.GoString(C.GetOriginMessageKeys(cMsg))
-	gomsg.Body = C.GoString(C.GetOriginMessageBody(cMsg))
-	gomsg.BBody = C.GetOriginMessageBody(cMsg)
+	gomsg.Body = C.GoStringN(C.GetMessageBody(cMsg),C.GetMessageStoreSize(cMsg))
 	gomsg.DelayTimeLevel = int(C.GetOriginDelayTimeLevel(cMsg))
 	gomsg.cmsg = cMsg
 
@@ -140,7 +138,7 @@ func cmsgExtToGo(cmsg *C.struct_CMessageExt) *MessageExt {
 	gomsg.Tags = C.GoString(C.GetMessageTags(cmsg))
 	gomsg.Keys = C.GoString(C.GetMessageKeys(cmsg))
 	gomsg.Body = C.GoString(C.GetMessageBody(cmsg))
-	gomsg.BBody = C.GetMessageBody(cmsg)
+	gomsg.Body = C.GoStringN(C.GetMessageBody(cmsg),C.GetMessageStoreSize(cmsg))
 	gomsg.MessageID = C.GoString(C.GetMessageId(cmsg))
 	gomsg.DelayTimeLevel = int(C.GetMessageDelayTimeLevel(cmsg))
 	gomsg.QueueId = int(C.GetMessageQueueId(cmsg))
